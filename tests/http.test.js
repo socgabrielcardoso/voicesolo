@@ -1,0 +1,30 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { once } from 'node:events';
+import { createApp } from '../src/app.js';
+import { Conversations } from '../src/conversation.js';
+import { fixture, envelope } from './helpers.js';
+
+test('real HTTP server protects API, rejects forged Alexa and does not expose local files', async t => {
+  const { config, store } = fixture(t); let modelCalls = 0;
+  const conversations = new Conversations(config, store, { config, answer: async () => { modelCalls++; return 'Conectada, Chefe.'; } });
+  const app = createApp(config, store, conversations, {});
+  const server = app.listen(0, '127.0.0.1'); await once(server, 'listening');
+  t.after(() => { server.closeAllConnections(); server.close(); });
+  const base = 'http://127.0.0.1:' + server.address().port;
+  assert.equal((await fetch(base + '/healthz')).status, 200);
+  assert.equal((await fetch(base + '/api/status')).status, 401);
+  assert.equal((await fetch(base + '/.env')).status, 404);
+  assert.equal((await fetch(base + '/data/voice.sqlite')).status, 404);
+  assert.equal((await fetch(base + '/audio/private.mp3')).status, 404);
+  assert.equal((await fetch(base + '/alexa', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(envelope('AskDonnaIntent')) })).status, 400);
+  assert.equal(modelCalls, 0);
+  const headers = { Authorization: 'Bearer ' + config.adminToken, 'Content-Type': 'application/json' };
+  const answer = await fetch(base + '/api/chat', { method: 'POST', headers, body: JSON.stringify({ text: 'olá' }) });
+  assert.equal(answer.status, 200); assert.equal((await answer.json()).text, 'Conectada, Chefe.');
+  assert.equal(modelCalls, 1);
+  const csrf = await fetch(base + '/api/chat', { method: 'POST', headers: { ...headers, Origin: 'https://evil.example' }, body: '{"text":"x"}' });
+  assert.equal(csrf.status, 403);
+  const huge = await fetch(base + '/api/chat', { method: 'POST', headers, body: JSON.stringify({ text: 'x'.repeat(5000) }) });
+  assert.equal(huge.status, 413);
+});

@@ -1,0 +1,44 @@
+services:
+  - type: web
+    name: gabriel-voice-os
+    runtime: docker
+    plan: starter
+    region: virginia
+    numInstances: 1
+    healthCheckPath: /healthz
+    autoDeployTrigger: "off"
+    disk:
+      name: voice-data
+      mountPath: /app/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: ADMIN_TOKEN
+        generateValue: true
+      - key: DATA_KEY
+        sync: false
+      - key: ALEXA_SKILL_ID
+        sync: false
+      - key: ALLOWED_ALEXA_USERS
+        value: ""
+      - key: OPENAI_TEXT_MODEL
+        value: gpt-4.1-mini
+      - key: OPENAI_REALTIME_MODEL
+        value: gpt-realtime-2
+      - key: OPENAI_TTS_MODEL
+        value: gpt-4o-mini-tts
+      - key: OPENAI_VOICE
+        value: coral
+      - key: DATA_DIR
+        value: /app/data
+      - key: TIME_ZONE
+        value: America/Sao_Paulo
+      - key: DAILY_TURN_LIMIT
+        value: "100"
+      - key: DAILY_REALTIME_LIMIT
+        value: "10"
