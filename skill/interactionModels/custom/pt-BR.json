@@ -1,0 +1,23 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "gabriel voice o. s.",
+      "intents": [
+        {
+          "name": "AskDonnaIntent",
+          "slots": [{ "name": "query", "type": "AMAZON.SearchQuery" }],
+          "samples": ["donna {query}", "pergunte à donna {query}", "quero saber {query}", "me ajude com {query}", "me explique {query}", "minha pergunta é {query}"]
+        },
+        { "name": "ContinueIntent", "samples": ["continuar", "continue", "ouvir resposta", "já terminou", "pode responder"] },
+        { "name": "ForgetIntent", "samples": ["apagar histórico", "esquecer conversa", "limpar meu histórico"] },
+        { "name": "AMAZON.HelpIntent", "samples": [] },
+        { "name": "AMAZON.StopIntent", "samples": [] },
+        { "name": "AMAZON.CancelIntent", "samples": [] },
+        { "name": "AMAZON.FallbackIntent", "samples": [] },
+        { "name": "AMAZON.YesIntent", "samples": [] },
+        { "name": "AMAZON.NoIntent", "samples": [] }
+      ],
+      "types": []
+    }
+  }
+}
