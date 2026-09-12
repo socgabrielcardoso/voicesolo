@@ -15,7 +15,8 @@
     "setup": "node scripts/setup.js",
     "doctor": "node --env-file-if-exists=.env scripts/doctor.js",
     "prepare:audio": "node --env-file-if-exists=.env scripts/prepare-audio.js",
-    "smoke:live": "node --env-file-if-exists=.env scripts/smoke-live.js"
+    "smoke:live": "node --env-file-if-exists=.env scripts/smoke-live.js",
+    "smoke:container": "node scripts/smoke-container.js"
   },
   "dependencies": {
     "ask-sdk-express-adapter": "2.14.0",
