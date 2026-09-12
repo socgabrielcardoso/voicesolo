@@ -21,7 +21,7 @@ O navegador remoto retornou `ERR_BLOCKED_BY_CLIENT` ao abrir o endereço local. 
 
 ## Pendências de ativação
 
-- [ ] CI no GitHub executado e resultado confirmado.
+- [x] CI no GitHub aprovado no commit 35fbaa5d662de193c9510ac55eb9bd934992a4af — execução 34666847238. O commit seguinte registra somente documentação da pausa.
 - [ ] Build e execução do contêiner no provedor.
 - [ ] Hospedagem e despesa aprovadas; serviço HTTPS ativo.
 - [ ] Chave OpenAI configurada em segredo de servidor.
