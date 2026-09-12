@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#11151b">
+  <title>Gabriel Voice OS · Donna</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header><a class="brand" href="/">GABRIEL <span>VOICE OS</span></a><span class="badge">DONNA / 01</span></header>
+    <section class="intro"><p class="eyebrow">PRESENÇA. CLAREZA. EXECUÇÃO.</p><h1>Às suas ordens,<br><em>Chefe.</em></h1><p>Converse com a Donna por voz. Faça uma pausa, pense e termine sua frase. Eu espero.</p></section>
+    <section class="panel" aria-labelledby="access-title">
+      <h2 id="access-title">Seu espaço de conversa</h2>
+      <form id="access"><label for="token">Chave de acesso ao seu Voice OS</label><div class="row"><input id="token" type="password" required minlength="32" autocomplete="off" placeholder="Sua chave privada de acesso"><button type="submit">Conectar</button></div><small>Use a chave de acesso do sistema. Sua chave OpenAI fica somente no servidor.</small></form>
+      <p id="status" role="status" aria-live="polite">Aguardando conexão.</p>
+      <div id="workspace" hidden>
+        <div class="voice"><div id="orb" class="orb" aria-hidden="true"></div><div><h2>Vamos conversar.</h2><p id="voice-status" role="status" aria-live="polite">Microfone desligado.</p></div></div>
+        <div class="controls"><button id="start" type="button">Iniciar voz</button><button id="mute" type="button" class="secondary" disabled>Silenciar microfone</button><button id="stop" type="button" class="secondary" disabled>Encerrar</button></div>
+        <p class="disclosure">Donna é uma assistente de IA. A voz é gerada pela OpenAI. Ao iniciar, seu áudio será enviado à OpenAI. A sessão tem duração limitada e só escuta enquanto estiver ativa.</p>
+        <div id="transcript" class="transcript" role="log" aria-label="Respostas da Donna"></div>
+        <form id="chat"><label for="question">Prefere escrever?</label><div class="row"><input id="question" maxlength="1500" required autocomplete="off" placeholder="Donna, vamos organizar minhas prioridades."><button id="send" type="submit">Enviar</button></div></form>
+        <div class="footer-actions"><button id="forget" class="text-button" type="button">Apagar histórico de texto</button><button id="logout" class="text-button" type="button">Desconectar</button></div>
+        <details><summary>Conectar minha Echo</summary><p>Depois que a Skill estiver configurada, diga “Alexa, abrir Gabriel Voice OS”. Comece os pedidos com “Donna”.</p><p>A Echo reconhece a fala e envia texto ao sistema. As respostas pessoais usam a voz da Alexa. A voz contínua da OpenAI funciona nesta página com o microfone do computador ou celular.</p><button id="enroll" type="button" class="secondary">Ver pedidos de autorização</button><pre id="enrollments"></pre></details>
+      </div>
+    </section>
+    <footer>DONNA É A SUA ASSISTENTE. AS DECISÕES SÃO SUAS.</footer>
+  </main>
+  <audio id="remote-audio" autoplay></audio>
+</body>
+</html>
