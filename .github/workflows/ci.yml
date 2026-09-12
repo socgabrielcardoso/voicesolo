@@ -1,0 +1,21 @@
+name: Verify Voice OS
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: npm run check
+      - run: npm test
+      - run: npm audit --omit=dev --audit-level=high
