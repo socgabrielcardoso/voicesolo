@@ -82,6 +82,8 @@ npm audit --omit=dev --audit-level=high
 
 O teste de áudio exige FFmpeg e FFprobe. Os testes comuns substituem a OpenAI por respostas controladas; não consomem créditos. `npm run smoke:live` faz chamadas reais a Responses e Speech e **consome créditos**. Ele não comprova, sozinho, que Realtime ou Echo funcionam.
 
+O CI também executa `npm run smoke:container`: constrói a imagem Docker, inicia o backend em configuração de produção e verifica autenticação, permissões, FFmpeg, encerramento e persistência criptografada após reinício. Pode ser executado em uma máquina com Node 24 e Docker. Usa apenas chaves temporárias de teste, não lê `.env` e não chama a OpenAI. A porta fica restrita ao host; isso não publica um serviço na internet. Consulte as execuções comprovadas em [VALIDATION.md](docs/VALIDATION.md).
+
 ## Escopo e próximos conectores
 
 Esta versão é privada, para uma conta administradora, uma instância e um disco. E-mail, calendário, Intune, Sentinel, execução de scripts e automações externas **não estão conectados**. Cada ferramenta adicional exige API própria, escopo de acesso e validação; ações com efeitos externos devem ter autorização explícita. Ver o contrato de extensão em [SECURITY.md](SECURITY.md).

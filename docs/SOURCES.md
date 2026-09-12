@@ -28,5 +28,10 @@ Consultadas em 12/09/2026. Serviram para escolher interfaces e requisitos. Não 
 | [Render — Environment Variables](https://render.com/docs/environment-variables) | Origem HTTPS automática do serviço |
 | [Render — Deploys](https://render.com/docs/deploys) | Configuração de implantação |
 | [Render — Pricing](https://render.com/pricing) | Página para cotação antes de contratação; preço não afirmado nesta etapa |
+| [Render — MCP Server](https://render.com/docs/mcp-server) | Autenticação da integração, seleção de workspace e limites das operações |
+| [Render — Persistent Disks](https://render.com/docs/disks) | Disponibilidade somente em runtime, reinício e restrições de snapshot de bancos |
+| [Docker — Container Run](https://docs.docker.com/reference/cli/docker/container/run/) | Inicialização descartável e variáveis de teste passadas por nome |
+| [Docker — Volumes](https://docs.docker.com/engine/storage/volumes/) | Volume vazio e persistência no teste do contêiner |
+| [Docker — Port Publishing](https://docs.docker.com/engine/network/port-publishing/) | Porta de teste publicada somente em loopback |
 
 Não foi usada documentação não oficial para fundamentar as integrações. O diagnóstico de dependências veio de `npm audit` no lockfile instalado.

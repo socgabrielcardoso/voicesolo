@@ -2,6 +2,18 @@
 
 Data da execução local: 12/09/2026.
 
+## Retomada: contêiner validado no GitHub Actions
+
+Em 12/09/2026, o CI foi aprovado no commit `2a232628d2798f5fbcb02c37a8cae3de0110979f`: [execução 34679105216](https://github.com/socgabrielcardoso/voicesolo/actions/runs/34679105216). Os jobs `verify` e `container` terminaram com sucesso.
+
+- `verify`: sintaxe/modelo, os 18 testes existentes e auditoria npm sem vulnerabilidades reportadas.
+- `container`: build real do Dockerfile em runner Linux; backend iniciado com configuração de produção, origem fornecida por `RENDER_EXTERNAL_URL` e volume inicialmente vazio.
+- HTTP real no contêiner: saúde, página, HSTS, autenticação obrigatória, rejeição de origem diferente e bloqueio de arquivos privados.
+- Processo principal confirmado com UID 1000; diretório de dados com modo 0700, banco com modo 0600 e presença de FFmpeg/FFprobe.
+- Encerramento com código zero; reinício conservando e decifrando o registro de teste e preservando o contador no volume.
+
+Foram usadas chaves temporárias de teste. Nenhuma chave de produção foi lida; não houve chamada OpenAI nem serviço público. O teste valida o contêiner no CI, não a montagem do disco ou o certificado no Render. O commit posterior atualiza somente a documentação dessas evidências.
+
 ## Executado
 
 - Instalação de dependências e lockfile completo.
@@ -21,7 +33,8 @@ O navegador remoto retornou `ERR_BLOCKED_BY_CLIENT` ao abrir o endereço local. 
 
 ## Pendências de ativação
 
-- [x] CI no GitHub aprovado no commit 35fbaa5d662de193c9510ac55eb9bd934992a4af — execução 34666847238. O commit seguinte registra somente documentação da pausa.
+- [x] CI no GitHub aprovado no commit 2a232628d2798f5fbcb02c37a8cae3de0110979f — execução 34679105216.
+- [x] Build e execução real do contêiner no CI, com permissões e persistência após reinício.
 - [ ] Build e execução do contêiner no provedor.
 - [ ] Hospedagem e despesa aprovadas; serviço HTTPS ativo.
 - [ ] Chave OpenAI configurada em segredo de servidor.

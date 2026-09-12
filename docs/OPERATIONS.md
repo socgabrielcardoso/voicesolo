@@ -9,6 +9,7 @@
 | `npm run doctor` | Verifica configuração local, sem expor segredos |
 | `npm run prepare:audio` | Gera falas públicas ausentes; consome API Speech |
 | `npm run smoke:live` | Valida Responses e Speech reais; consome créditos |
+| `npm run smoke:container` | Com Docker, constrói e verifica contêiner e volume temporários; sem credenciais reais ou chamadas OpenAI |
 | `npm run check` | Verifica sintaxe e restrições básicas do JSON Alexa |
 | `npm test` | Testes locais com OpenAI substituída por fixtures |
 
@@ -33,7 +34,7 @@ O processo não recupera respostas pendentes executando de novo após reiniciar:
 
 ## Backup e atualização
 
-Parar o serviço antes de copiar o volume SQLite ou usar o mecanismo de snapshot consistente do provedor. Preservar banco e DATA_KEY separadamente; perder a chave torna o conteúdo ilegível. Um backup antigo pode conter dados já apagados do banco ativo.
+Parar o serviço e aguardar seu encerramento antes de copiar o volume SQLite. Preservar banco e DATA_KEY separadamente; perder a chave torna o conteúdo ilegível. Um backup antigo pode conter dados já apagados do banco ativo. Não assumir que o snapshot automático de disco do Render é um backup consistente do banco em execução: o provedor alerta que restaurar discos de bancos pode resultar em corrupção. Ver [restrições de restauração](https://render.com/docs/disks#restoring-a-custom-database).
 
 Atualizar dependências com `npm install --save-exact`, revisar lockfile, executar checks/testes/auditoria e redeployar. Não alterar DATA_KEY em um redeploy comum. Ao trocar a voz/configuração TTS, gerar novamente apenas os arquivos públicos do catálogo durante uma janela controlada.
 

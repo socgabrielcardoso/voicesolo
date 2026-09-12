@@ -6,6 +6,10 @@ Este documento registra as tarefas que o agente deve executar assim que houver a
 
 Opção preparada: Render, contêiner Docker, uma instância e disco persistente de 1 GB. `render.yaml` contém o serviço. É uma configuração de infraestrutura paga; sua existência no Git não contrata nenhum plano. O valor atual precisa ser conferido no provedor antes da contratação. Créditos de API OpenAI são separados.
 
+Na retomada de 12/09/2026, o GitHub estava autorizado e o plugin Render foi localizado, mas ainda não estava instalado/conectado. O próximo passo do proprietário é instalar a integração Render e concluir o login e o consentimento na própria interface de conexão. O agente deve conferir a conexão antes de usá-la, selecionar o workspace e consultar recursos existentes para evitar criar um serviço duplicado. Uma confirmação de GitHub liberado não autoriza acesso à conta Render. Não pedir chave de API no chat. [Autenticação oficial do Render](https://render.com/docs/mcp-server).
+
+Antes da implantação, conferir o job `container` no GitHub Actions ou executar `npm run smoke:container` com Docker. Ele utiliza um volume descartável inicialmente vazio para verificar o bootstrap de permissões, o processo com UID 1000 e a recuperação de dados após reinício. Não cria infraestrutura Render nem valida TLS público.
+
 | Opção | Vantagem | Custo/limitação |
 | --- | --- | --- |
 | A. Render — recomendada para esta versão | Configuração declarativa, HTTPS e disco | Conta, integração e plano de computação pago |
@@ -26,6 +30,8 @@ Passos operacionais do agente no Render:
 10. Confirmar que `/audio/welcome.mp3` retorna `audio/mpeg` por HTTPS. Se síntese ou conversão falhar, a Skill conserva fallback em texto.
 
 Blueprints não guardam segredos no Git: campos `sync:false` são preenchidos no provedor. `ADMIN_TOKEN` pode ser gerado pelo próprio Render. `DATA_KEY` deve ser exatamente 64 caracteres hexadecimais. O preço não foi fixado em código.
+
+O disco persistente só está disponível na instância em execução: não é montado no build, pre-deploy ou one-off jobs. Portanto, gerar os MP3 em `/app/data` dentro do serviço ativo, por acesso operacional autorizado; não mover `prepare:audio` para uma dessas etapas isoladas. O agente deve verificar se a integração conectada permite configurar o disco antes de criar o serviço. Um deploy com disco interrompe brevemente a instância anterior. [Limites oficiais dos discos](https://render.com/docs/disks).
 
 ## 2. Conta OpenAI
 
