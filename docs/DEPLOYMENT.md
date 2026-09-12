@@ -6,7 +6,22 @@ Este documento registra as tarefas que o agente deve executar assim que houver a
 
 Opção preparada: Render, contêiner Docker, uma instância e disco persistente de 1 GB. `render.yaml` contém o serviço. É uma configuração de infraestrutura paga; sua existência no Git não contrata nenhum plano. O valor atual precisa ser conferido no provedor antes da contratação. Créditos de API OpenAI são separados.
 
-Na retomada de 12/09/2026, o GitHub estava autorizado e o plugin Render foi localizado, mas ainda não estava instalado/conectado. O próximo passo do proprietário é instalar a integração Render e concluir o login e o consentimento na própria interface de conexão. O agente deve conferir a conexão antes de usá-la, selecionar o workspace e consultar recursos existentes para evitar criar um serviço duplicado. Uma confirmação de GitHub liberado não autoriza acesso à conta Render. Não pedir chave de API no chat. [Autenticação oficial do Render](https://render.com/docs/mcp-server).
+A conexão Render foi confirmada em 12/09/2026. Foi encontrado somente “My Workspace” e a consulta de serviços não retornou serviços. Não pedir novamente instalação ou login da integração. A criação disponível no plugin não expõe disco persistente e sua descrição restringe criação Docker; manter a implantação completa por Blueprint. O agente deve verificar recursos existentes novamente antes de criar para evitar duplicação. [Operações e limitações oficiais](https://render.com/docs/mcp-server).
+
+### Proposta preparada para aprovação
+
+| Item | Configuração | Base mensal em USD |
+| --- | --- | --- |
+| Workspace | Hobby, sem upgrade para Pro; confirmar plano no painel | US$ 0 |
+| Web service | Docker, 512 MB, uma instância; Starter / `0.5c-512mb` | US$ 7 |
+| Disco | 1 GB em `/app/data` | US$ 0,25 |
+| Total de infraestrutura | Região Virginia, origem HTTPS Render | US$ 7,25 |
+
+Cotação consultada em 12/09/2026: [preços Render](https://render.com/pricing) e [modelo de cobrança oficial](https://render.com/articles/how-much-does-cloud-application-hosting-cost-for-small-businesses). O total é uma base, não um teto de fatura: impostos, conversão cambial, excedentes de tráfego/build e uso da OpenAI são separados. O plano do workspace não foi informado pela consulta; não contratar upgrade ou aceitar preço diferente sem nova decisão. O modelo gratuito não oferece o disco necessário e adormece, por isso não atende à arquitetura da Echo.
+
+Blueprint já publicado: https://dashboard.render.com/blueprint/new?repo=https://github.com/socgabrielcardoso/voicesolo
+
+Serviço: `gabriel-voice-os`; repositório `socgabrielcardoso/voicesolo`, branch `main`; arquivo `render.yaml`. O link abre a preparação da implantação, não comprova serviço criado. Aguardar a aprovação da despesa antes de aplicar. Campos protegidos precisam de valores válidos; não preencher com placeholders para declarar sucesso. O agente gera os segredos próprios quando houver destino seguro e preserva DATA_KEY. OPENAI_API_KEY e ALEXA_SKILL_ID ainda não estão disponíveis.
 
 Antes da implantação, conferir o job `container` no GitHub Actions ou executar `npm run smoke:container` com Docker. Ele utiliza um volume descartável inicialmente vazio para verificar o bootstrap de permissões, o processo com UID 1000 e a recuperação de dados após reinício. Não cria infraestrutura Render nem valida TLS público.
 
