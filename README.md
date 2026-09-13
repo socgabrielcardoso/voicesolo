@@ -4,7 +4,9 @@
 
 Backend Node.js 24, Alexa Custom Skill em português brasileiro, OpenAI Responses, Speech e Realtime, histórico criptografado e implantação em contêiner.
 
-> **Estado: implementação inicial testada localmente. A ativação real exige hospedagem, chave OpenAI e configuração da Skill na conta Amazon. A Echo ainda não foi validada.** Consulte [VALIDATION.md](docs/VALIDATION.md) para separar testes executados de etapas pendentes.
+> **Estado em 13/09/2026: backend ativo no Render, com HTTPS e sete verificações públicas aprovadas. OpenAI e Alexa aguardam credenciais/configuração; a Echo ainda não foi validada.** Consulte [VALIDATION.md](docs/VALIDATION.md) para separar testes executados de etapas pendentes.
+
+Painel: https://gabriel-voice-os.onrender.com · Saúde: https://gabriel-voice-os.onrender.com/healthz. O painel exige ADMIN_TOKEN para acessar funções privadas. A disponibilidade dessas URLs não comprova conversa real com a OpenAI.
 
 ## O que é possível de verdade
 

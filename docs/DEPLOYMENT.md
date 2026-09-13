@@ -2,11 +2,13 @@
 
 Este documento registra as tarefas que o agente deve executar assim que houver acesso. O proprietário só precisa intervir para login, consentimento, credenciais, contratação e uso físico da Echo. Não é necessário instalar Linux no computador pessoal.
 
+**Estado em 13/09/2026: hospedagem concluída.** Serviço `srv-dajhoj0ae00c73a1dnag` ativo em https://gabriel-voice-os.onrender.com. Deploy `dep-dajhojgae00c73a1dorg` live, disco de 1 GB confirmado e sete verificações públicas aprovadas. Não repetir a criação do Blueprint. A próxima intervenção é a credencial OpenAI, descrita na seção 2. Ver VALIDATION.md.
+
 ## 1. Hospedagem
 
 Opção preparada: Render, contêiner Docker, uma instância e disco persistente de 1 GB. `render.yaml` contém o serviço. É uma configuração de infraestrutura paga; sua existência no Git não contrata nenhum plano. O valor atual precisa ser conferido no provedor antes da contratação. Créditos de API OpenAI são separados.
 
-A conexão Render foi confirmada em 12/09/2026. Foi encontrado somente “My Workspace” e a consulta de serviços não retornou serviços. Não pedir novamente instalação ou login da integração. A criação disponível no plugin não expõe disco persistente e sua descrição restringe criação Docker; manter a implantação completa por Blueprint. O agente deve verificar recursos existentes novamente antes de criar para evitar duplicação. [Operações e limitações oficiais](https://render.com/docs/mcp-server).
+A conexão Render foi confirmada em 12/09/2026; naquela consulta ainda não havia serviços. Em 13/09/2026 o proprietário aplicou o Blueprint em My Workspace. Não pedir novamente instalação, login da integração ou criação do serviço. A criação disponível no plugin não expõe disco persistente e sua descrição restringe criação Docker, razão da aplicação inicial pelo painel. O agente deve reutilizar o serviço ativo e verificar recursos existentes antes de qualquer criação. [Operações e limitações oficiais](https://render.com/docs/mcp-server).
 
 ### Configuração autorizada em 13/09/2026
 
@@ -53,6 +55,21 @@ O disco persistente só está disponível na instância em execução: não é m
 O agente precisa de uma chave de projeto da API. O login Amazon e a assinatura ChatGPT não substituem essa chave.
 
 Intervenção indispensável se a chave não estiver disponível: o proprietário entra na plataforma OpenAI, seleciona ou cria um projeto próprio, habilita o faturamento/crédito que desejar e cria a credencial. O valor é inserido diretamente em `OPENAI_API_KEY` no serviço, pelo campo protegido de configuração. Nunca colar a chave em um prompt, issue, README ou screenshot.
+
+No checkpoint de 13/09/2026, a chave está ausente no servidor e no ambiente do agente. A ferramenta de provisionamento de chaves OpenAI não está disponível. Ação do proprietário:
+
+1. Abrir https://platform.openai.com/api-keys e concluir o login, se solicitado. Selecionar/criar um projeto para Gabriel Voice OS.
+2. Criar uma chave de projeto com nome `voicesolo-render`. Copiar a chave para uso imediato no próximo passo; não enviá-la pelo chat.
+3. Abrir https://dashboard.render.com/web/srv-dajhoj0ae00c73a1dnag. No menu do serviço, entrar em **Environment**.
+4. Em **Environment Variables**, usar **+ Add Environment Variable** (entrar em **Edit** antes, se essa opção aparecer). Nome: `OPENAI_API_KEY`. Valor: a chave criada. Preservar todas as variáveis existentes, especialmente ADMIN_TOKEN e DATA_KEY.
+5. Salvar com **Save and deploy**, que reutiliza o build existente. Se só houver **Save, rebuild, and deploy**, essa opção também aplica a credencial ao processo. Só inserir a chave e iniciar o backend não chama a OpenAI.
+6. Informar “chave configurada”, sem anexar valor ou captura com o segredo visível. O agente confere o deploy e prossegue até o próximo bloqueio real.
+
+Se a plataforma exigir recarga/contratação, apresentar primeiro o valor ao proprietário. A autorização de US$ 7,25/mês refere-se à hospedagem; não inclui uma compra adicional de créditos. Não tratar uma chave configurada como prova de saldo, permissão ou chamada OpenAI bem-sucedida.
+
+O ADMIN_TOKEN gerado está no Environment do Render. Para usar o painel, o proprietário pode copiá-lo diretamente para o campo de autenticação de https://gabriel-voice-os.onrender.com, sem colocá-lo na conversa. O agente ainda não possui esse token nem shell remoto: testes autenticados e execução de scripts em produção continuam pendentes até haver acesso operacional seguro. Não criar uma porta de diagnóstico sem autenticação nem substituir segredos existentes para contornar isso.
+
+Fontes consultadas nesta etapa: [OpenAI Quickstart](https://developers.openai.com/api/docs/quickstart) e [Render Environment Variables](https://render.com/docs/configure-environment-variables).
 
 O modelo de texto, de TTS e de Realtime pode ter disponibilidade diferente por projeto. O agente executa os testes reais e trata 401 (credencial), 403 (permissão), 429 (limite/crédito) e indisponibilidade de modelo com base na resposta recebida. Nenhum modelo alternativo deve ser apresentado como validado sem testar.
 
@@ -109,9 +126,9 @@ As respostas textuais são exibidas como texto seguro. Não são inseridas como 
 
 Usar o mesmo Dockerfile com volume persistente, variáveis de produção e um proxy HTTPS confiável. `compose.yaml` é apenas para desenvolvimento local; publica a porta em loopback e não instala domínio nem TLS. Antes de produção, configurar origens e TLS no provedor escolhido. Uma instância, sem PM2 cluster. Manter serviço ligado para concluir trabalhos pendentes.
 
-## Pagamento e aplicação inicial — 13/09/2026
+## Histórico: pagamento e aplicação inicial — 13/09/2026
 
-O proprietário autorizou a base de US$ 7,25/mês e confirmou “Pagamento configurado”. Não pedir novamente pagamento, orçamento ou conexão Render. A consulta autenticada ainda não retornou serviços.
+O proprietário autorizou a base de US$ 7,25/mês, confirmou pagamento e executou a aplicação inicial abaixo. O serviço agora está ativo e verificado. Este roteiro fica como histórico; não repetir para o projeto existente.
 
 A criação do Blueprint precisa ser aplicada no painel: a ferramenta Render conectada não expõe criação de Blueprint ou disco persistente. O fluxo `render-deploy` documenta essa etapa pelo Dashboard. O agente não deve trocar a arquitetura por um serviço sem disco para contornar a limitação. A configuração completa e sem campos de segredo manuais já está publicada.
 

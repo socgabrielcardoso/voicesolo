@@ -1,0 +1,90 @@
+{
+  "checked_at": "2026-09-13T22:05:04.910132+00:00",
+  "url": "https://gabriel-voice-os.onrender.com",
+  "tests": [
+    {
+      "name": "health",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "bytes": 44,
+      "json": {
+        "status": "ok",
+        "service": "gabriel-voice-os"
+      },
+      "hsts": "max-age=31536000",
+      "csp": true,
+      "cache_control": "no-store"
+    },
+    {
+      "name": "page",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "bytes": 3178
+    },
+    {
+      "name": "private_auth",
+      "status": 401,
+      "expected": 401,
+      "pass": true,
+      "bytes": 26
+    },
+    {
+      "name": "foreign_origin",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "bytes": 34
+    },
+    {
+      "name": "env_private",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "bytes": 28
+    },
+    {
+      "name": "data_private",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "bytes": 28
+    },
+    {
+      "name": "unsigned_alexa",
+      "status": 400,
+      "expected": 400,
+      "pass": true,
+      "bytes": 33
+    }
+  ],
+  "all_passed": true,
+  "openai_requests": 0,
+  "render": {
+    "service_id": "srv-dajhoj0ae00c73a1dnag",
+    "deploy_id": "dep-dajhojgae00c73a1dorg",
+    "deployed_commit": "b79da2fb1b28615ec51e1b1d2563da5fc84b85e6",
+    "status": "live",
+    "finished_at": "2026-09-13T21:58:46.384014Z",
+    "runtime": "docker",
+    "plan": "0.5c-512mb",
+    "region": "virginia",
+    "instances": 1,
+    "disk": {
+      "id": "dsk-dajhoj0ae00c73a1dnpg",
+      "size_gb": 1,
+      "mount_path": "/app/data"
+    },
+    "startup_flags": {
+      "openaiConfigured": false,
+      "alexaConfigured": false
+    }
+  },
+  "limitations": [
+    "Authenticated production access with the correct ADMIN_TOKEN not tested",
+    "Restart persistence on Render not tested",
+    "No real OpenAI requests or voice sessions",
+    "No real Amazon-signed request or physical Echo validation"
+  ]
+}

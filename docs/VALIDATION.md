@@ -2,13 +2,33 @@
 
 Data da execução local: 12/09/2026.
 
+## Backend público verificado — 13/09/2026
+
+O proprietário confirmou US$ 7,25 no painel e aplicou o Blueprint. O plugin Render confirmou serviço `srv-dajhoj0ae00c73a1dnag`, Docker, Virginia, uma instância `0.5c-512mb` e disco `dsk-dajhoj0ae00c73a1dnpg` de 1 GB em `/app/data`. Deploy `dep-dajhojgae00c73a1dorg`, commit `b79da2fb1b28615ec51e1b1d2563da5fc84b85e6`: `live`, finalizado às 21:58:46 UTC.
+
+Sete verificações reais via HTTPS de https://gabriel-voice-os.onrender.com concluídas às 22:05:04 UTC, usando validação TLS padrão, sem credenciais e sem chamadas OpenAI:
+
+| Verificação | Resultado |
+| --- | --- |
+| GET /healthz | 200; status ok e serviço esperado; HSTS/CSP presentes; no-store |
+| GET / | 200; página Donna servida |
+| GET /api/status sem token | 401 |
+| GET /api/status com Origin externo | 403 |
+| GET /.env | 404 |
+| GET /data/voice.sqlite | 404 |
+| POST /alexa sem assinatura | 400 |
+
+Relatório: [evidence/render-2026-09-13.json](evidence/render-2026-09-13.json). Os logs mostram `openaiConfigured: false` e `alexaConfigured: false`. A métrica de memória às 22:03 UTC foi 31.383.552 bytes, com uma instância; é uma amostra inicial, não um teste de carga.
+
+Esta evidência confirma serviço público e controles de entrada. Ainda não testa acesso com ADMIN_TOKEN correto, chamadas OpenAI, UI com microfone, assinatura Amazon real ou persistência após reinício no Render. As chaves geradas foram preservadas. A etapa seguinte depende de OPENAI_API_KEY e acesso operacional seguro para testes autenticados.
+
 ## Implantação preparada — 13/09/2026
 
 CI aprovado no commit `bbfbb4aaf9778297ece9acfbc58903ab838c7983`: [execução 34784330707](https://github.com/socgabrielcardoso/voicesolo/actions/runs/34784330707). Jobs verify e container aprovados; logs confirmaram **21 testes, 21 aprovados, zero falhas**, auditoria npm sem vulnerabilidades reportadas e teste do contêiner aprovado com DATA_KEY e ADMIN_TOKEN Base64.
 
 Os três testes novos verificam compatibilidade criptográfica e identidade entre hex/Base64, rejeição de chaves inválidas/não canônicas e inicialização em produção sem credenciais OpenAI/Amazon. A configuração render.yaml passou no JSON Schema oficial obtido de https://render.com/schema/render.yaml.json. Isso verifica estrutura, não autorização ou aceitação final da conta no Dashboard.
 
-Orçamento aprovado e pagamento confirmado pelo proprietário. Nenhum serviço Render criado nesta execução e zero chamadas OpenAI reais. A aplicação inicial do Blueprint no painel é a próxima etapa indispensável. O commit posterior altera somente documentação.
+Naquele checkpoint, orçamento e pagamento estavam confirmados, mas não havia serviço criado nem chamadas OpenAI reais. A aplicação inicial estava pendente e foi concluída na etapa documentada acima. O commit posterior à preparação alterava somente documentação.
 
 ## Retomada: contêiner validado no GitHub Actions
 
@@ -43,9 +63,10 @@ O navegador remoto retornou `ERR_BLOCKED_BY_CLIENT` ao abrir o endereço local. 
 
 - [x] CI no GitHub aprovado no commit bbfbb4aaf9778297ece9acfbc58903ab838c7983 — execução 34784330707, 21 testes.
 - [x] Build e execução real do contêiner no CI, com permissões e persistência após reinício.
-- [ ] Build e execução do contêiner no provedor.
+- [x] Build e execução do contêiner no provedor — deploy live em 13/09/2026.
 - [x] Despesa de hospedagem aprovada e pagamento confirmado pelo proprietário.
-- [ ] Blueprint aplicado; serviço HTTPS ativo no Render.
+- [x] Blueprint aplicado; serviço HTTPS ativo no Render e sete verificações públicas aprovadas.
+- [ ] Teste autenticado em produção e persistência após reinício no Render.
 - [ ] Chave OpenAI configurada em segredo de servidor.
 - [ ] Responses e Speech reais aprovados (`smoke:live`).
 - [ ] Falas públicas sintetizadas, servidas e reproduzidas.
