@@ -2,7 +2,9 @@ services:
   - type: web
     name: gabriel-voice-os
     runtime: docker
-    plan: starter
+    plan: 0.5c-512mb
+    repo: https://github.com/socgabrielcardoso/voicesolo
+    branch: main
     region: virginia
     numInstances: 1
     healthCheckPath: /healthz
@@ -16,14 +18,10 @@ services:
         value: production
       - key: HOST
         value: 0.0.0.0
-      - key: OPENAI_API_KEY
-        sync: false
       - key: ADMIN_TOKEN
         generateValue: true
       - key: DATA_KEY
-        sync: false
-      - key: ALEXA_SKILL_ID
-        sync: false
+        generateValue: true
       - key: ALLOWED_ALEXA_USERS
         value: ""
       - key: OPENAI_TEXT_MODEL

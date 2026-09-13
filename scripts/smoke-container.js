@@ -13,7 +13,7 @@ const env = {
   NODE_ENV: 'production', HOST: '0.0.0.0', PORT: '3000', DATA_DIR: '/app/data',
   RENDER_EXTERNAL_URL: 'https://container-test.invalid', PUBLIC_BASE_URL: '',
   OPENAI_API_KEY: '', ALEXA_SKILL_ID: '', ALLOWED_ALEXA_USERS: '',
-  ADMIN_TOKEN: randomBytes(32).toString('hex'), DATA_KEY: randomBytes(32).toString('hex')
+  ADMIN_TOKEN: randomBytes(32).toString('base64'), DATA_KEY: randomBytes(32).toString('base64')
 };
 
 function docker(args, { visible = false, timeout = 30000, allowFailure = false } = {}) {

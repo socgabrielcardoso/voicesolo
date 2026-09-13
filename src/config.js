@@ -6,15 +6,23 @@ function integer(env, key, fallback, min, max) {
   return value;
 }
 
+function normalizeDataKey(value) {
+  if (/^[a-f0-9]{64}$/i.test(value)) return value.toLowerCase();
+  if (/^[A-Za-z0-9+/]{43}=$/.test(value)) {
+    const bytes = Buffer.from(value, 'base64');
+    if (bytes.length === 32 && bytes.toString('base64') === value) return bytes.toString('hex');
+  }
+  throw new Error('DATA_KEY requires 32 bytes encoded as 64 hex characters or canonical Base64');
+}
+
 export function loadConfig(env = process.env) {
   const production = env.NODE_ENV === 'production';
   const baseUrl = new URL(env.PUBLIC_BASE_URL || env.RENDER_EXTERNAL_URL || 'http://localhost:3000');
   if (baseUrl.username || baseUrl.password || baseUrl.search || baseUrl.hash || baseUrl.pathname !== '/') throw new Error('PUBLIC_BASE_URL must be an origin');
   if (production && baseUrl.protocol !== 'https:') throw new Error('HTTPS required in production');
   if (!['http:', 'https:'].includes(baseUrl.protocol)) throw new Error('Invalid PUBLIC_BASE_URL');
-  const dataKey = env.DATA_KEY || '';
+  const dataKey = normalizeDataKey(env.DATA_KEY || '');
   const adminToken = env.ADMIN_TOKEN || '';
-  if (!/^[a-f0-9]{64}$/i.test(dataKey)) throw new Error('Run npm run setup: DATA_KEY requires 64 hex characters');
   if (adminToken.length < 32) throw new Error('Run npm run setup: ADMIN_TOKEN requires at least 32 characters');
   const timeZone = env.TIME_ZONE || 'America/Sao_Paulo';
   new Intl.DateTimeFormat('pt-BR', { timeZone }).format();
