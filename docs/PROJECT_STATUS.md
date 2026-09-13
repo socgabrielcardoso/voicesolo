@@ -12,7 +12,9 @@ Novo nesta retomada: comando `npm run smoke:container` e job `container` no CI. 
 
 Conexão Render confirmada em 12/09/2026 por consulta autenticada. Foi encontrado um único workspace, “My Workspace”; a consulta de serviços não retornou serviços. Não repetir pedido de instalação/conexão Render.
 
-Bloqueio imediato: aprovação da nova despesa de hospedagem. Proposta preparada: um web service Docker com 512 MB e disco de 1 GB, em workspace Hobby, por US$ 7,25/mês de base (US$ 7 de computação + US$ 0,25 de disco), antes de impostos, conversão, eventuais excedentes e API OpenAI. Nenhuma despesa foi contratada. O plano atual do workspace não é exposto pela listagem usada e deve ser conferido no painel antes da criação.
+Despesa autorizada explicitamente pelo proprietário em 13/09/2026: base de US$ 7,25/mês (US$ 7 de computação + US$ 0,25 de disco), mantendo o workspace Hobby sem upgrade. NÃO pedir essa autorização novamente. Impostos, conversão, excedentes e OpenAI continuam separados da base descrita. Ainda não foi criado serviço.
+
+Próxima intervenção do proprietário: conferir ou cadastrar a forma de pagamento em My Workspace → Billing → Payment Method no próprio Render. Ele informou que está logado. O plugin não expõe dados de faturamento ou cadastro de cartão, portanto a presença de um método válido ainda não foi verificada. Credenciais de pagamento não devem passar pelo chat. Depois de confirmado, continuar a implantação pelo caminho que suporte Docker e disco persistente.
 
 Limite operacional confirmado: a ferramenta de criação do plugin não possui configuração de disco; sua descrição também restringe a criação Docker. O Blueprint existente representa a configuração completa. Após aprovação do custo, usar um meio autorizado que suporte esse Blueprint e seus segredos; não criar serviço sem persistência para aparentar um deploy concluído. Ver a proposta e o link de implantação em DEPLOYMENT.md.
 
@@ -20,6 +22,6 @@ Pendências posteriores: chave OpenAI não disponível; conta Amazon Developer/S
 
 Limites preservados: Alexa Custom Skills enviam intents/slots reconhecidos, não áudio bruto do microfone. Respostas pessoais usam síntese da Alexa; somente três falas públicas fixas podem virar MP3 OpenAI. A voz contínua OpenAI funciona pelo cliente web usando o microfone do computador/celular. Memórias e plugins do ChatGPT não são herdados. A frase exata de invocação ainda depende de build Amazon e teste na Echo.
 
-Próximo passo indispensável do proprietário: autorizar a despesa base de US$ 7,25/mês no workspace “My Workspace”. Depois, continuar a implantação; não solicitar novamente autorização de Render. Credenciais OpenAI e conta Amazon permanecem etapas posteriores, por fluxos seguros.
+Próximo passo indispensável do proprietário: confirmar que o método de pagamento está cadastrado no Render. A hospedagem de US$ 7,25/mês já está autorizada; a integração Render já está conectada. Não repetir essas aprovações.
 
 Prompt pronto: [RESUME_PROMPT.md](RESUME_PROMPT.md).

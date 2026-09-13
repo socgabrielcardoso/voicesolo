@@ -8,7 +8,7 @@ Opção preparada: Render, contêiner Docker, uma instância e disco persistente
 
 A conexão Render foi confirmada em 12/09/2026. Foi encontrado somente “My Workspace” e a consulta de serviços não retornou serviços. Não pedir novamente instalação ou login da integração. A criação disponível no plugin não expõe disco persistente e sua descrição restringe criação Docker; manter a implantação completa por Blueprint. O agente deve verificar recursos existentes novamente antes de criar para evitar duplicação. [Operações e limitações oficiais](https://render.com/docs/mcp-server).
 
-### Proposta preparada para aprovação
+### Configuração autorizada em 13/09/2026
 
 | Item | Configuração | Base mensal em USD |
 | --- | --- | --- |
@@ -21,7 +21,7 @@ Cotação consultada em 12/09/2026: [preços Render](https://render.com/pricing)
 
 Blueprint já publicado: https://dashboard.render.com/blueprint/new?repo=https://github.com/socgabrielcardoso/voicesolo
 
-Serviço: `gabriel-voice-os`; repositório `socgabrielcardoso/voicesolo`, branch `main`; arquivo `render.yaml`. O link abre a preparação da implantação, não comprova serviço criado. Aguardar a aprovação da despesa antes de aplicar. Campos protegidos precisam de valores válidos; não preencher com placeholders para declarar sucesso. O agente gera os segredos próprios quando houver destino seguro e preserva DATA_KEY. OPENAI_API_KEY e ALEXA_SKILL_ID ainda não estão disponíveis.
+Serviço: `gabriel-voice-os`; repositório `socgabrielcardoso/voicesolo`, branch `main`; arquivo `render.yaml`. O link abre a preparação da implantação, não comprova serviço criado. O proprietário aprovou a base de US$ 7,25/mês em 13/09/2026; não pedir novamente essa aprovação. Campos protegidos precisam de valores válidos; não preencher com placeholders para declarar sucesso. O agente gera os segredos próprios quando houver destino seguro e preserva DATA_KEY. OPENAI_API_KEY e ALEXA_SKILL_ID ainda não estão disponíveis.
 
 Antes da implantação, conferir o job `container` no GitHub Actions ou executar `npm run smoke:container` com Docker. Ele utiliza um volume descartável inicialmente vazio para verificar o bootstrap de permissões, o processo com UID 1000 e a recuperação de dados após reinício. Não cria infraestrutura Render nem valida TLS público.
 
@@ -108,3 +108,7 @@ As respostas textuais são exibidas como texto seguro. Não são inseridas como 
 ## 7. Servidor próprio
 
 Usar o mesmo Dockerfile com volume persistente, variáveis de produção e um proxy HTTPS confiável. `compose.yaml` é apenas para desenvolvimento local; publica a porta em loopback e não instala domínio nem TLS. Antes de produção, configurar origens e TLS no provedor escolhido. Uma instância, sem PM2 cluster. Manter serviço ligado para concluir trabalhos pendentes.
+
+## Pagamento — etapa atual
+
+O proprietário já autorizou a base mensal e informou que está logado. No workspace My Workspace, abrir Billing e a seção Payment Method; cadastrar o cartão no formulário seguro do Render se ainda não houver método válido. Manter o workspace Hobby. A cobrança da infraestrutura ocorre conforme os recursos pagos são usados; cadastrar o método não comprova implantação. O plugin conectado não possui operação de cadastro/consulta de cartão. Fonte do caminho de navegação: https://render.com/docs/render-dashboard#manage-billing . Após a confirmação do método de pagamento, o agente continua o deploy com o orçamento já autorizado.
