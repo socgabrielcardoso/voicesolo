@@ -17,7 +17,7 @@
 
 | Sintoma | Verificar |
 | --- | --- |
-| Serviço não inicia | Node 24; DATA_KEY hex com 64 caracteres; ADMIN_TOKEN; URL HTTPS em produção; disco gravável |
+| Serviço não inicia | Node 24; DATA_KEY de 32 bytes em hex ou Base64 canônico; ADMIN_TOKEN; URL HTTPS em produção; disco gravável |
 | `/healthz` responde, Donna não | Chave e permissão dos modelos, crédito e logs sanitizados de erro |
 | Alexa diz que há problema na Skill | Endpoint HTTPS, certificado, Skill ID, build pt-BR e status do serviço |
 | Alexa não reconhece a invocação | Idioma e nome realmente aceito no build; testar primeiro no simulador |

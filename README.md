@@ -67,6 +67,7 @@ O nome técnico de invocação é `gabriel voice o. s.`. A aceitação do nome e
 
 - [Arquitetura, viabilidade e decisões](docs/ARCHITECTURE.md)
 - [Implantação e ativação detalhadas](docs/DEPLOYMENT.md)
+- [Custos autorizados e consumo registrado](docs/COSTS.md)
 - [Segurança e dados](SECURITY.md)
 - [Operação e diagnóstico](docs/OPERATIONS.md)
 - [Validação e pendências](docs/VALIDATION.md)

@@ -21,7 +21,7 @@ Cotação consultada em 12/09/2026: [preços Render](https://render.com/pricing)
 
 Blueprint já publicado: https://dashboard.render.com/blueprint/new?repo=https://github.com/socgabrielcardoso/voicesolo
 
-Serviço: `gabriel-voice-os`; repositório `socgabrielcardoso/voicesolo`, branch `main`; arquivo `render.yaml`. O link abre a preparação da implantação, não comprova serviço criado. O proprietário aprovou a base de US$ 7,25/mês em 13/09/2026; não pedir novamente essa aprovação. Campos protegidos precisam de valores válidos; não preencher com placeholders para declarar sucesso. O agente gera os segredos próprios quando houver destino seguro e preserva DATA_KEY. OPENAI_API_KEY e ALEXA_SKILL_ID ainda não estão disponíveis.
+Serviço: `gabriel-voice-os`; repositório `socgabrielcardoso/voicesolo`, branch `main`; arquivo `render.yaml`. O link abre a preparação da implantação, não comprova serviço criado. O proprietário aprovou a base de US$ 7,25/mês em 13/09/2026; não pedir novamente essa aprovação. O Blueprint gera ADMIN_TOKEN e DATA_KEY no Render e pode iniciar sem OPENAI_API_KEY ou ALEXA_SKILL_ID. Essas duas credenciais serão adicionadas depois ao serviço por configuração protegida. Não usar valores fictícios. Preservar DATA_KEY em todas as atualizações.
 
 Antes da implantação, conferir o job `container` no GitHub Actions ou executar `npm run smoke:container` com Docker. Ele utiliza um volume descartável inicialmente vazio para verificar o bootstrap de permissões, o processo com UID 1000 e a recuperação de dados após reinício. Não cria infraestrutura Render nem valida TLS público.
 
@@ -36,7 +36,7 @@ Passos operacionais do agente no Render:
 1. Usar a integração Render autorizada; selecionar o workspace do proprietário.
 2. Obter a cotação do plano e disco. Se não houver orçamento previamente aprovado, apresentar o custo concreto antes de contratar.
 3. Criar o serviço a partir de `socgabrielcardoso/voicesolo`, branch `main`, Dockerfile da raiz, com disco `/app/data`, tamanho 1 GB, health check `/healthz`, uma instância. Não usar site estático, GitHub Pages ou um processo que adormeça entre requisições para esta arquitetura.
-4. Preparar `DATA_KEY` (32 bytes aleatórios em hex) e `ADMIN_TOKEN` (pelo menos 32 caracteres aleatórios) no gerenciador de segredos; preservar DATA_KEY em redeploys. Não escrever valores no Git ou na conversa.
+4. O Blueprint gera DATA_KEY e ADMIN_TOKEN por `generateValue: true`. DATA_KEY aceita 32 bytes em hexadecimal (64 caracteres) ou Base64 canônico (44 caracteres), normalizados internamente para a mesma chave. Preservar os valores em redeploys; não publicá-los no Git ou na conversa.
 5. Configurar `OPENAI_API_KEY` no campo protegido do serviço. O proprietário pode inseri-la diretamente, sem enviá-la pelo chat. Se o agente já tiver acesso seguro à chave apropriada e autorização de destino, usar essa capacidade.
 6. Configurar `ALEXA_SKILL_ID` após a criação Amazon. Deixar `ALLOWED_ALEXA_USERS` vazio até receber e conferir um pedido assinado de cadastro. A conta vazia permanece sem acesso ao modelo.
 7. Usar os defaults declarados no Blueprint. O backend detecta `RENDER_EXTERNAL_URL` automaticamente. Para domínio próprio, definir `PUBLIC_BASE_URL` como a origem HTTPS, sem caminho nem barra final adicional.
@@ -44,7 +44,7 @@ Passos operacionais do agente no Render:
 9. Executar `npm run smoke:live` no ambiente seguro para verificar Responses e Speech. Executar `npm run prepare:audio` para preparar as três falas públicas no disco.
 10. Confirmar que `/audio/welcome.mp3` retorna `audio/mpeg` por HTTPS. Se síntese ou conversão falhar, a Skill conserva fallback em texto.
 
-Blueprints não guardam segredos no Git: campos `sync:false` são preenchidos no provedor. `ADMIN_TOKEN` pode ser gerado pelo próprio Render. `DATA_KEY` deve ser exatamente 64 caracteres hexadecimais. O preço não foi fixado em código.
+O primeiro deploy não pede valores de segredo: ADMIN_TOKEN e DATA_KEY são gerados pelo Render somente se ainda não existirem. A configuração continua exigindo 256 bits para DATA_KEY; o suporte a Base64 não reduz a chave. OPENAI_API_KEY e ALEXA_SKILL_ID ficam ausentes até sua configuração posterior. Isso mantém o consumo OpenAI em zero durante a validação inicial de hospedagem. O painel privado permanece protegido pelo token.
 
 O disco persistente só está disponível na instância em execução: não é montado no build, pre-deploy ou one-off jobs. Portanto, gerar os MP3 em `/app/data` dentro do serviço ativo, por acesso operacional autorizado; não mover `prepare:audio` para uma dessas etapas isoladas. O agente deve verificar se a integração conectada permite configurar o disco antes de criar o serviço. Um deploy com disco interrompe brevemente a instância anterior. [Limites oficiais dos discos](https://render.com/docs/disks).
 
@@ -109,6 +109,20 @@ As respostas textuais são exibidas como texto seguro. Não são inseridas como 
 
 Usar o mesmo Dockerfile com volume persistente, variáveis de produção e um proxy HTTPS confiável. `compose.yaml` é apenas para desenvolvimento local; publica a porta em loopback e não instala domínio nem TLS. Antes de produção, configurar origens e TLS no provedor escolhido. Uma instância, sem PM2 cluster. Manter serviço ligado para concluir trabalhos pendentes.
 
-## Pagamento — etapa atual
+## Pagamento e aplicação inicial — 13/09/2026
 
-O proprietário já autorizou a base mensal e informou que está logado. No workspace My Workspace, abrir Billing e a seção Payment Method; cadastrar o cartão no formulário seguro do Render se ainda não houver método válido. Manter o workspace Hobby. A cobrança da infraestrutura ocorre conforme os recursos pagos são usados; cadastrar o método não comprova implantação. O plugin conectado não possui operação de cadastro/consulta de cartão. Fonte do caminho de navegação: https://render.com/docs/render-dashboard#manage-billing . Após a confirmação do método de pagamento, o agente continua o deploy com o orçamento já autorizado.
+O proprietário autorizou a base de US$ 7,25/mês e confirmou “Pagamento configurado”. Não pedir novamente pagamento, orçamento ou conexão Render. A consulta autenticada ainda não retornou serviços.
+
+A criação do Blueprint precisa ser aplicada no painel: a ferramenta Render conectada não expõe criação de Blueprint ou disco persistente. O fluxo `render-deploy` documenta essa etapa pelo Dashboard. O agente não deve trocar a arquitetura por um serviço sem disco para contornar a limitação. A configuração completa e sem campos de segredo manuais já está publicada.
+
+Ação exata do proprietário:
+
+1. Abrir https://dashboard.render.com/blueprint/new?repo=https://github.com/socgabrielcardoso/voicesolo no navegador em que está logado.
+2. Selecionar My Workspace. Se o Render pedir conexão GitHub, concluir o consentimento para o repositório voicesolo.
+3. Usar o nome de Blueprint Gabriel Voice OS, branch main e arquivo render.yaml.
+4. Conferir um único web service gabriel-voice-os, Docker, região Virginia, plano 0.5c-512mb (512 MB; US$ 7/mês) e disco de 1 GB em /app/data (US$ 0,25/mês). Manter Hobby no workspace.
+5. O arquivo atual gera os segredos automaticamente; não deve pedir OPENAI_API_KEY, ALEXA_SKILL_ID ou DATA_KEY para esta primeira implantação. Se aparecerem, a tela carregou uma versão antiga: voltar ao fluxo do link atual antes de prosseguir.
+6. Aplicar/criar o Blueprint com o botão de implantação apresentado no painel. A despesa base já está autorizada.
+7. Informar “Blueprint criado” ou enviar a URL pública do serviço. O agente localiza o serviço pelo plugin, acompanha o build, verifica /healthz e os controles privados e continua com OpenAI/Amazon.
+
+O primeiro serviço ativo terá painel e saúde disponíveis; Donna não responderá via OpenAI até a credencial ser configurada. Criar o Blueprint não comprova sucesso do deploy. Custos e limites: [COSTS.md](COSTS.md).

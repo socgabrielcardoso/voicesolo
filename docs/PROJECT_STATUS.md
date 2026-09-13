@@ -1,27 +1,26 @@
-# Estado após a retomada — 12/09/2026
+# Estado atual — 13/09/2026
 
-Retomada autorizada pelo proprietário a partir de `dc4edfb1f31fea7016d5e02f4a0e34ba93703ea3`. Os cinco documentos solicitados foram lidos; o CI do commit da pausa também estava aprovado. Trabalho anterior preservado em `socgabrielcardoso/voicesolo`, branch `main`.
+**Estimativa de entrega: aproximadamente 65%. Backend público ainda não implantado; Echo ainda não validada.**
 
-**Avanço estimado: aproximadamente 65% do objetivo final.** Estimativa mantida enquanto faltam os marcos de ativação real. A retomada acrescentou evidência de execução do contêiner, sem declarar funcionamento na Echo.
+Projeto completo preservado em socgabrielcardoso/voicesolo, branch main. Backend Donna, OpenAI Responses/Speech, cliente Realtime, modelo Alexa pt-BR, ferramentas de hora/cálculo, segurança e documentação implementados. Os 18 testes originais e o contêiner foram aprovados no CI do commit 2a232628d2798f5fbcb02c37a8cae3de0110979f, execução 34679105216.
 
-Concluído anteriormente: pesquisa oficial, arquitetura, backend Node 24, persona Donna, OpenAI Responses e Speech, cliente WebRTC Realtime com controle no servidor, modelo Alexa pt-BR, autenticação, histórico criptografado, cotas, ferramentas de hora e cálculo, cancelamento, continuidade, Dockerfile, Blueprint Render, documentação e 18 testes automatizados.
+Atualização desta etapa: suporte à chave de 256 bits em Base64 gerada pelo Render, mantendo compatibilidade com chaves hex existentes. Três testes novos aprovados localmente. O Blueprint usa o plano atual 0.5c-512mb, gera ADMIN_TOKEN e DATA_KEY e inicia sem credenciais OpenAI/Amazon. O teste de contêiner usa o mesmo formato Base64. O arquivo render.yaml passou na validação do esquema JSON oficial Render. CI do commit bbfbb4aaf9778297ece9acfbc58903ab838c7983 aprovado: execução 34784330707, 21 testes aprovados, auditoria sem vulnerabilidades reportadas e contêiner aprovado. Evidência em VALIDATION.md.
 
-Novo nesta retomada: comando `npm run smoke:container` e job `container` no CI. Build real, inicialização em produção, HTTP privado, processo UID 1000, permissões do banco, FFmpeg, encerramento limpo e persistência criptografada após reinício foram aprovados. Os 18 testes e a auditoria npm também passaram. Commit de código `2a232628d2798f5fbcb02c37a8cae3de0110979f`; evidência: https://github.com/socgabrielcardoso/voicesolo/actions/runs/34679105216 . O commit seguinte registra documentação, sem mudança de comportamento do backend.
+## Autorizações já resolvidas
 
-**Publicação GitHub: feita. Implantação online do backend: pendente. Echo física: ainda não validada.**
+- GitHub liberado.
+- Render conectado e consultado: único workspace My Workspace, sem serviços retornados na consulta.
+- Base de US$ 7,25/mês autorizada explicitamente em 13/09/2026, mantendo Hobby sem upgrade.
+- Proprietário confirmou “Pagamento configurado”. Não pedir novamente nenhuma dessas etapas.
 
-Conexão Render confirmada em 12/09/2026 por consulta autenticada. Foi encontrado um único workspace, “My Workspace”; a consulta de serviços não retornou serviços. Não repetir pedido de instalação/conexão Render.
+## Próximo bloqueio concreto
 
-Despesa autorizada explicitamente pelo proprietário em 13/09/2026: base de US$ 7,25/mês (US$ 7 de computação + US$ 0,25 de disco), mantendo o workspace Hobby sem upgrade. NÃO pedir essa autorização novamente. Impostos, conversão, excedentes e OpenAI continuam separados da base descrita. Ainda não foi criado serviço.
+Aplicar o Blueprint no Dashboard Render. As ferramentas conectadas não criam Blueprint/disco e descrevem limitação para criação Docker. O fluxo render-deploy requer aplicação inicial pelo painel. O arquivo completo está publicado, sem campos de segredo manuais nesta etapa. Passo a passo e link em DEPLOYMENT.md.
 
-Próxima intervenção do proprietário: conferir ou cadastrar a forma de pagamento em My Workspace → Billing → Payment Method no próprio Render. Ele informou que está logado. O plugin não expõe dados de faturamento ou cadastro de cartão, portanto a presença de um método válido ainda não foi verificada. Credenciais de pagamento não devem passar pelo chat. Depois de confirmado, continuar a implantação pelo caminho que suporte Docker e disco persistente.
+Após o proprietário confirmar a criação: localizar o serviço pelo plugin, conferir plano/disco, acompanhar deploy, verificar HTTPS/healthz, configurar e testar OpenAI por meio seguro, criar/configurar a Skill e validar a Echo. Não considerar a criação como prova de serviço funcionando.
 
-Limite operacional confirmado: a ferramenta de criação do plugin não possui configuração de disco; sua descrição também restringe a criação Docker. O Blueprint existente representa a configuração completa. Após aprovação do custo, usar um meio autorizado que suporte esse Blueprint e seus segredos; não criar serviço sem persistência para aparentar um deploy concluído. Ver a proposta e o link de implantação em DEPLOYMENT.md.
+Nenhuma chamada OpenAI real foi executada. Nenhum serviço Render foi criado pelo agente. Custos e política de atualização em COSTS.md.
 
-Pendências posteriores: chave OpenAI não disponível; conta Amazon Developer/Skill ainda não configurada nesta sessão; validações reais OpenAI, HTTPS, Alexa e microfone. O arquivo render.yaml prepara a infraestrutura, mas não significa que existe um serviço online.
+Limites preservados: Alexa envia texto reconhecido em JSON, não áudio bruto; respostas pessoais usam síntese Alexa; somente falas públicas fixas podem ser MP3; Realtime usa microfone do cliente web; ChatGPT não transfere automaticamente memória/voz/plugins.
 
-Limites preservados: Alexa Custom Skills enviam intents/slots reconhecidos, não áudio bruto do microfone. Respostas pessoais usam síntese da Alexa; somente três falas públicas fixas podem virar MP3 OpenAI. A voz contínua OpenAI funciona pelo cliente web usando o microfone do computador/celular. Memórias e plugins do ChatGPT não são herdados. A frase exata de invocação ainda depende de build Amazon e teste na Echo.
-
-Próximo passo indispensável do proprietário: confirmar que o método de pagamento está cadastrado no Render. A hospedagem de US$ 7,25/mês já está autorizada; a integração Render já está conectada. Não repetir essas aprovações.
-
-Prompt pronto: [RESUME_PROMPT.md](RESUME_PROMPT.md).
+Prompt de continuidade: RESUME_PROMPT.md.

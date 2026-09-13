@@ -2,6 +2,14 @@
 
 Data da execução local: 12/09/2026.
 
+## Implantação preparada — 13/09/2026
+
+CI aprovado no commit `bbfbb4aaf9778297ece9acfbc58903ab838c7983`: [execução 34784330707](https://github.com/socgabrielcardoso/voicesolo/actions/runs/34784330707). Jobs verify e container aprovados; logs confirmaram **21 testes, 21 aprovados, zero falhas**, auditoria npm sem vulnerabilidades reportadas e teste do contêiner aprovado com DATA_KEY e ADMIN_TOKEN Base64.
+
+Os três testes novos verificam compatibilidade criptográfica e identidade entre hex/Base64, rejeição de chaves inválidas/não canônicas e inicialização em produção sem credenciais OpenAI/Amazon. A configuração render.yaml passou no JSON Schema oficial obtido de https://render.com/schema/render.yaml.json. Isso verifica estrutura, não autorização ou aceitação final da conta no Dashboard.
+
+Orçamento aprovado e pagamento confirmado pelo proprietário. Nenhum serviço Render criado nesta execução e zero chamadas OpenAI reais. A aplicação inicial do Blueprint no painel é a próxima etapa indispensável. O commit posterior altera somente documentação.
+
 ## Retomada: contêiner validado no GitHub Actions
 
 Em 12/09/2026, o CI foi aprovado no commit `2a232628d2798f5fbcb02c37a8cae3de0110979f`: [execução 34679105216](https://github.com/socgabrielcardoso/voicesolo/actions/runs/34679105216). Os jobs `verify` e `container` terminaram com sucesso.
@@ -33,10 +41,11 @@ O navegador remoto retornou `ERR_BLOCKED_BY_CLIENT` ao abrir o endereço local. 
 
 ## Pendências de ativação
 
-- [x] CI no GitHub aprovado no commit 2a232628d2798f5fbcb02c37a8cae3de0110979f — execução 34679105216.
+- [x] CI no GitHub aprovado no commit bbfbb4aaf9778297ece9acfbc58903ab838c7983 — execução 34784330707, 21 testes.
 - [x] Build e execução real do contêiner no CI, com permissões e persistência após reinício.
 - [ ] Build e execução do contêiner no provedor.
-- [ ] Hospedagem e despesa aprovadas; serviço HTTPS ativo.
+- [x] Despesa de hospedagem aprovada e pagamento confirmado pelo proprietário.
+- [ ] Blueprint aplicado; serviço HTTPS ativo no Render.
 - [ ] Chave OpenAI configurada em segredo de servidor.
 - [ ] Responses e Speech reais aprovados (`smoke:live`).
 - [ ] Falas públicas sintetizadas, servidas e reproduzidas.
