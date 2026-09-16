@@ -4,6 +4,7 @@ import { OpenAIProvider } from './openai.js';
 import { Conversations } from './conversation.js';
 import { Realtime } from './realtime.js';
 import { createApp } from './app.js';
+import { runStartupDiagnostic } from './diagnostics.js';
 
 const config = loadConfig();
 const store = new Store(config);
@@ -13,6 +14,7 @@ const realtime = new Realtime(config, store, provider);
 await realtime.recover();
 const app = createApp(config, store, conversations, realtime);
 const server = app.listen(config.port, config.host, () => console.log(JSON.stringify({ event: 'listening', host: config.host, port: config.port, openaiConfigured: Boolean(config.apiKey), alexaConfigured: Boolean(config.skillId) })));
+void runStartupDiagnostic(config).catch(() => console.error(JSON.stringify({ event: 'openai_diagnostic', status: 'storage_error' })));
 server.requestTimeout = 30000;
 server.headersTimeout = 10000;
 const cleanup = setInterval(() => { store.cleanup(); void realtime.recover().catch(() => {}); }, 60000); cleanup.unref();

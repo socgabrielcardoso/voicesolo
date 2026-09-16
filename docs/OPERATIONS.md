@@ -38,7 +38,17 @@ Parar o serviço e aguardar seu encerramento antes de copiar o volume SQLite. Pr
 
 Atualizar dependências com `npm install --save-exact`, revisar lockfile, executar checks/testes/auditoria e redeployar. Não alterar DATA_KEY em um redeploy comum. Ao trocar a voz/configuração TTS, gerar novamente apenas os arquivos públicos do catálogo durante uma janela controlada.
 
-Logs válidos: `listening`, `answer_failed`, `realtime_hangup_failed`, `public_audio_prepared`. Não habilitar logging global de corpos HTTP ou eventos Realtime, pois podem conter texto ou áudio.
+Logs válidos: `listening`, `answer_failed`, `realtime_hangup_failed`, `public_audio_prepared`, `openai_diagnostic`. Não habilitar logging global de corpos HTTP ou eventos Realtime, pois podem conter texto ou áudio.
+
+## Diagnóstico OpenAI sem shell remoto
+
+O operador com acesso à configuração Render pode definir `OPENAI_DIAGNOSTIC_RUN_ID` com um identificador único (letras, números, hífen ou sublinhado; até 64 caracteres). `OPENAI_DIAGNOSTIC_MODE=models` consulta somente o modelo configurado; não gera tokens. `responses` também faz **uma** chamada ao GPT-4.1 mini, sem ferramentas, histórico ou áudio, limitada a **32 tokens de saída**. Não funciona com outros modelos sem revisão de orçamento. Informar custo estimado ao proprietário antes de habilitar esse modo pago.
+
+O diagnóstico começa após a inicialização do servidor. Usa a credencial já existente no processo, sem expô-la ao agente. Não cria rota HTTP ou substitui ADMIN_TOKEN/DATA_KEY. A aplicação grava uma reserva atômica em `/app/data/diagnostics/<id>.json` antes de contatar a OpenAI e não repete aquele identificador após reinício, falha ou timeout. Preservar esse arquivo: removê-lo ou restaurar um disco anterior pode permitir uma nova tentativa.
+
+O evento `openai_diagnostic` registra apenas estado, modelo, contadores, códigos de erro permitidos, duração e tokens retornados. O valor `calculatedUsd` usa as tarifas consultadas em 16/09/2026 (US$ 0,40 entrada; US$ 0,10 entrada em cache; US$ 1,60 saída, por milhão). É custo calculado de API, não uma consulta à fatura. Se o provedor não devolver uso, o custo permanece desconhecido. `model_access_confirmed` não comprova saldo nem geração. `responses_passed` confirma apenas texto; Speech, Realtime e Alexa exigem validação própria.
+
+Para desativar, deixar `OPENAI_DIAGNOSTIC_RUN_ID` vazio; manter o registro persistente. Alterar o ID representa autorizar uma nova tentativa e requer informação prévia de custo. O serviço permanece disponível mesmo se o diagnóstico falhar.
 
 ## Critério de operação concluída
 
