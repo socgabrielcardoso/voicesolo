@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Donna voice backend with a Portuguese Alexa Skill and OpenAI Realtime client",
+  "description": "Personal AI and voice-systems lab integrating realtime AI, WebRTC, secure backend controls, containers and voice assistants.",
   "engines": {
     "node": ">=24.0.0 <25"
   },
@@ -22,5 +22,15 @@
     "ask-sdk-express-adapter": "2.14.0",
     "express": "5.2.1",
     "ws": "8.21.3"
-  }
+  },
+  "author": "Gabriel de Lima Cardoso",
+  "keywords": [
+    "ai",
+    "voice",
+    "webrtc",
+    "nodejs",
+    "docker",
+    "security",
+    "realtime"
+  ]
 }
