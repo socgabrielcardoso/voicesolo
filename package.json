@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "ask-sdk-express-adapter": "2.14.0",
-    "express": "5.2.1",
+    "express": "5.3.0",
     "ws": "8.21.3"
   },
   "author": "Gabriel de Lima Cardoso",
