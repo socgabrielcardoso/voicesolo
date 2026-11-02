@@ -26,7 +26,7 @@ test('wrong application, stale/future timestamps and malformed envelopes are rej
 });
 test('Alexa envelopes reject empty and whitespace-only identifiers', t => {
   const { config } = fixture(t);
-  for (const value of ['', ' ', '\\t\\n']) {
+  for (const value of ['', ' ', '\t\n']) {
     const invalidUser = envelope();
     invalidUser.context.System.user.userId = value;
     assert.throws(() => validateAlexaEnvelope(invalidUser, config), /Missing user/);
