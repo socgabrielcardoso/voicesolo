@@ -24,6 +24,22 @@ test('wrong application, stale/future timestamps and malformed envelopes are rej
   const body = envelope(); body.context.System.user.userId = 'another-account';
   assert.equal(validateAlexaEnvelope(body, config).authorized, false);
 });
+test('Alexa envelopes reject empty and whitespace-only identifiers', t => {
+  const { config } = fixture(t);
+  for (const value of ['', ' ', '\\t\\n']) {
+    const invalidUser = envelope();
+    invalidUser.context.System.user.userId = value;
+    assert.throws(() => validateAlexaEnvelope(invalidUser, config), /Missing user/);
+
+    const invalidRequest = envelope();
+    invalidRequest.request.requestId = value;
+    assert.throws(() => validateAlexaEnvelope(invalidRequest, config), /Invalid request ID/);
+  }
+
+  const valid = envelope();
+  assert.equal(validateAlexaEnvelope(valid, config).authorized, true);
+});
+
 test('Amazon verifier rejects missing signatures and untrusted certificate URLs without network', async () => {
   const verifier = new AmazonVerifier();
   await assert.rejects(verifier.verify('{}', {}));
