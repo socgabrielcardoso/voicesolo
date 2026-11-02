@@ -36,9 +36,9 @@ export function validateAlexaEnvelope(body, config, now = Date.now()) {
   const stamp = Date.parse(request?.timestamp);
   if (!Number.isFinite(stamp) || Math.abs(now - stamp) > 150000) throw new Error('Invalid timestamp');
   if (request?.locale !== 'pt-BR') throw new Error('Unsupported locale');
-  if (typeof request?.requestId !== 'string' || request.requestId.length > 256 || request.requestId.length < 1) throw new Error('Invalid request ID');
+  if (typeof request?.requestId !== 'string' || !request.requestId.trim() || request.requestId.length > 256) throw new Error('Invalid request ID');
   const user = system?.user?.userId;
-  if (typeof user !== 'string' || user.length > 512) throw new Error('Missing user');
+  if (typeof user !== 'string' || !user.trim() || user.length > 512) throw new Error('Missing user');
   if (body.session?.user?.userId && body.session.user.userId !== user) throw new Error('Invalid session user');
   return { rawUser: user, owner: ownerId(user, config.dataKey), authorized: config.allowedUsers.has(user) };
 }
